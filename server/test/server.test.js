@@ -72,7 +72,7 @@ describe('GET /todos',()=>{
     })
     .end(done);
   })
-  describe('GET /todos',()=>{
+
     it('get first todo',(done)=>{
       request(app)
       .get(`/todos/${todos[0]._id.toHexString()}`)
@@ -98,6 +98,26 @@ describe('GET /todos',()=>{
         expect(res.body.message).toBe('id not valid');
       }).end(done);
     })
+})
 
+describe('PATCH /todos',()=>{
+  it('should get 200 and response body',(done)=>{
+    var body = {
+      completed:true
+  };
+    request(app)
+    .patch(`/todos/${todos[0]._id.toHexString()}`)
+    .send(body)
+    .expect(200)
+    .expect((res)=>{
+      console.log(todos[0]._id);
+      expect(res.body.todo.completed).toBe(body.completed);
+      expect(res.body.todo._id).toBe(todos[0]._id.toHexString())
+      if(body.completed){
+        expect(res.body.todo.completedAt).toNotBe(null);
+      }else {
+        expect(res.body.todo.completedAt).toBe(null);
+      }
+    }).end(done);
   })
 })
