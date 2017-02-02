@@ -19,6 +19,7 @@ var {User} = require('./models/user');
 var {ObjectID} = require('mongodb');
 const port = process.env.PORT || 3000;
 var app = new express();
+var {authenticate} = require('./middleware/authenticate');
 
 console.log('MONGODB_URI****',process.env.MONGODB_URI);
 app.use(bodyParser.json());
@@ -110,6 +111,10 @@ app.post('/users',(req,res)=>{
   }).catch((e)=>{
     res.status(400).send(e);
   })
+});
+
+app.get('/users/me',authenticate, (req,res)=>{
+  res.send(req.user);
 })
 app.listen(port, ()=>{
   console.log('started on port 3000');
