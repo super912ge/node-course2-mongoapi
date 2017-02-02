@@ -1,4 +1,15 @@
 //var mongoose = require('mongoose');
+var env = process.env.NODE_ENV || 'development';
+console.log('env*********',env);
+if(env==='development'){
+  process.env.PORT = 3000;
+  process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
+
+}else if(env==='test'){
+  console.log('****enter test mode****');
+  process.env.PORT = 3000;
+  process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoAppTest';
+}
 var express = require('express');
 var bodyParser = require('body-parser');
 const _ = require('lodash');
@@ -9,6 +20,7 @@ var {ObjectID} = require('mongodb');
 const port = process.env.PORT || 3000;
 var app = new express();
 
+console.log('MONGODB_URI****',process.env.MONGODB_URI);
 app.use(bodyParser.json());
 app.post('/todos',(req,res)=>{
   var todo = new Todo({

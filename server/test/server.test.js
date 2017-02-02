@@ -3,7 +3,7 @@ const request = require('supertest');
 var {ObjectID} = require('mongodb');
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
-
+console.log('env****',process.env.NODE_ENV);
 const todos = [{
   _id: new ObjectID(),
   text:"first test todo"
